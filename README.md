@@ -106,5 +106,10 @@ installed on it using `file` and `remote-exec` provisioners
         ```
         * The `coalesce` function returns the first non-empty string from the list i.e either public / private ip
         * Since the connection type is ssh, it needs user and path to ssh private key
+     * You need to manually modify default security group on ur EC2 instance and allow All TCP connections to ur machine 
+     IP, since security group modification is not handled in this code.
+     * Run `terraform apply` and then you should be able to see nginx welcome page by accessing the 
+     http://ur-ec2-instance-public-ip 
  
-
+## Provisioning software on Windows EC2 instance
+Refer the contents of `provision-windows-ec2-instance` dir and the README.md under it
