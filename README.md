@@ -113,3 +113,41 @@ installed on it using `file` and `remote-exec` provisioners
  
 ## Provisioning software on Windows EC2 instance
 Refer the contents of `provision-windows-ec2-instance` dir and the README.md under it
+
+## Outputting attributes
+- Use `output` to display an attribute value
+- Ex: 
+```aidl
+output "ip" {
+    value = ${aws_instance.example.public_ip}
+```
+- where the format is resource_type.resource_name.attribute_name
+
+## Remote state
+- Terraform stores remote state of the infra in a file `terraform.tfstate` and it keeps backup of previous state in file
+`terraform.tfstate.backup`
+- When `terraform apply` is executed, a new `terraform.tfstate` is created and backup is written to `terraform.tfstate.backup`
+- The `terraform.tfstate` file can be version controlled
+- The **terraform state** can be saved in remote, using the backend functionality in terraform.
+    - The default is a local backend (i.e is local terraform state file)
+- Other backends inclue:
+    - s3 (with a locking mechanism using dynamoDB)
+    - consul (with locking)
+    - terraform enterprise
+- The benefit of state files is that it allows for collaboration, the remote state will be always available for team.
+- Using remote store for terraform state will avoid commit/push to version control
+### Steps to configure remote state
+1) Add the backend code to a .tf file
+2) Run the initialization process i.e `terraform init`
+Ex:
+```backend.tf
+terraform {
+  backend "s3" {
+    bucket = "siddesh-tf-state"
+    key = "terraform/state"
+    region = "ap-southeast-1"
+  }
+}
+```
+
+
