@@ -120,6 +120,7 @@ Refer the contents of `provision-windows-ec2-instance` dir and the README.md und
 ```aidl
 output "ip" {
     value = ${aws_instance.example.public_ip}
+}
 ```
 - where the format is resource_type.resource_name.attribute_name
 
